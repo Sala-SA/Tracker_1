@@ -5,6 +5,10 @@ import AddMemberModal from './AddMemberModal'
 export default function TeamPanel() {
   const { teamMembers, updateMemberStatus } = useTeam()
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [task, setTask] = useState({
+    // ...other fields
+    estimatedEndDate: '', // Instead of dueDate
+  })
 
   if (!teamMembers) return <div>Loading...</div>
 
@@ -30,7 +34,7 @@ export default function TeamPanel() {
                 <div className="flex space-x-2 text-sm text-gray-500">
                   <p>{member.role}</p>
                   <span>•</span>
-                  <p>{member.email}</p>
+                  <p>{member.estimatedEndDate || 'No end date set'}</p> {/* Changed from dueDate */}
                 </div>
               </div>
             </div>
@@ -55,3 +59,8 @@ export default function TeamPanel() {
     </div>
   )
 }
+
+// Update any TaskList or Task display components
+<div className="text-sm text-gray-600">
+  End Date: {task.estimatedEndDate ? new Date(task.estimatedEndDate).toLocaleDateString() : 'Not set'}
+</div>

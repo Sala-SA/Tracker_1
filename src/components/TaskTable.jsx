@@ -10,6 +10,16 @@ export default function TaskTable({ status }) {
   const [editingTask, setEditingTask] = useState(null)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Not set'
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    })
+  }
+
   // Filter tasks based on status and search
   const filteredTasks = tasks.filter(task => {
     const matchesStatus = status ? task.status === status : true
@@ -44,16 +54,16 @@ export default function TaskTable({ status }) {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Title</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Priority</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Due Date</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">End Date</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
             {filteredTasks.map(task => (
               <tr key={task.id}>
-                <td className="px-6 py-4">{task.title}</td>
-                <td className="px-6 py-4">{task.status}</td>
-                <td className="px-6 py-4">
+                <td className="px-6 py-4 whitespace-nowrap">{task.title}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{task.status}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`px-2 py-1 rounded-full text-xs ${
                     task.priority === 'High' ? 'bg-red-100 text-red-800' :
                     task.priority === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
@@ -62,8 +72,10 @@ export default function TaskTable({ status }) {
                     {task.priority}
                   </span>
                 </td>
-                <td className="px-6 py-4">{task.dueDate}</td>
-                <td className="px-6 py-4">
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {formatDate(task.estimatedEndDate)}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex space-x-2">
                     <button 
                       onClick={() => handleEdit(task.id)}

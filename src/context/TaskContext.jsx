@@ -13,7 +13,7 @@ export function TaskProvider({ children }) {
         description: 'Set up initial project structure and dependencies',
         status: 'In Progress',
         priority: 'High',
-        dueDate: '2025-05-15',
+        estimatedEndDate: '2025-05-15', // Changed from dueDate
         assignees: [],
         createdAt: new Date().toISOString()
       },
@@ -23,7 +23,7 @@ export function TaskProvider({ children }) {
         description: 'Create wireframes and design mockups',
         status: 'To Do',
         priority: 'Medium',
-        dueDate: '2025-05-20',
+        estimatedEndDate: '2025-05-20', // Changed from dueDate
         assignees: [],
         createdAt: new Date().toISOString()
       },
@@ -33,7 +33,7 @@ export function TaskProvider({ children }) {
         description: 'Add user login and registration',
         status: 'To Do',
         priority: 'High',
-        dueDate: '2025-05-25',
+        estimatedEndDate: '2025-05-25', // Changed from dueDate
         assignees: [],
         createdAt: new Date().toISOString()
       }
@@ -45,16 +45,14 @@ export function TaskProvider({ children }) {
     localStorage.setItem('tasks', JSON.stringify(tasks))
   }, [tasks])
 
-  const addTask = (newTask) => {
-    setTasks(prevTasks => [
-      ...prevTasks,
-      {
-        ...newTask,
-        id: Date.now(),
-        createdAt: new Date().toISOString(),
-        status: 'To Do'
-      }
-    ])
+  const addTask = (taskData) => {
+    const newTask = {
+      ...taskData,
+      id: Date.now().toString(),
+      estimatedEndDate: taskData.estimatedEndDate,
+      createdAt: new Date().toISOString()
+    }
+    setTasks(prevTasks => [...prevTasks, newTask])
   }
 
   const deleteTask = (taskId) => {
