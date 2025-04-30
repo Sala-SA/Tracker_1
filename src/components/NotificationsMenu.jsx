@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function NotificationsMenu({ open, onClose }) {
+const NotificationsMenu = ({ open, onClose }) => {
   const ref = useRef();
 
   useEffect(() => {
@@ -15,14 +15,22 @@ export default function NotificationsMenu({ open, onClose }) {
   }, [onClose]);
 
   if (!open) return null;
+
   return (
     <div
       ref={ref}
-      className="absolute right-12 mt-2 w-64 bg-white shadow-lg rounded-md overflow-hidden z-50"
+      className="absolute right-0 top-full mt-2 w-80 bg-white shadow-lg rounded-md overflow-hidden z-50"
     >
-      <ul>
-        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">No new notifications</li>
-      </ul>
+      <div className="px-4 py-2 border-b">
+        <h3 className="text-lg font-semibold">Notifications</h3>
+      </div>
+      <div className="max-h-96 overflow-y-auto">
+        <div className="px-4 py-2 hover:bg-gray-100">
+          <p className="text-sm">No new notifications</p>
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+export default NotificationsMenu;

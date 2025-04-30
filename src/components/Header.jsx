@@ -37,16 +37,21 @@ export default function Header() {
       <div className="flex items-center space-x-4">
         <div className="relative">
           <button
-            onClick={() => setNotificationsOpen(!notificationsOpen)}
+            onClick={(e) => {
+              e.stopPropagation(); // Add this to prevent event bubbling
+              setNotificationsOpen(!notificationsOpen);
+            }}
             className="relative"
           >
             <AiOutlineBell className="w-6 h-6 text-gray-600 hover:text-gray-800" />
             <span className="absolute -top-1 -right-1 inline-block w-2 h-2 bg-red-500 rounded-full"></span>
           </button>
-          <NotificationsMenu
-            open={notificationsOpen}
-            onClose={() => setNotificationsOpen(false)}
-          />
+          {notificationsOpen && (
+            <NotificationsMenu
+              open={notificationsOpen}
+              onClose={() => setNotificationsOpen(false)}
+            />
+          )}
         </div>
 
         <div className="relative" ref={menuRef}>
